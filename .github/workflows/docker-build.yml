@@ -8,14 +8,11 @@ on:
       - 'releases/**'
     tags:
       - 'v*'
-  # pull_request:
-  #   branches:
-  #     - 'master'
-  #     - 'releases/**'
-  pull_request_target:
+  pull_request:
     branches:
       - 'master'
       - 'releases/**'
+
 
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/midjourney-api
