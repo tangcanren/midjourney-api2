@@ -12,6 +12,9 @@ on:
       branches:
         - 'master'
         - 'releases/**'
+    pull_request_target:
+      branches:
+        - 'master'
 env:
   REGISTRY_IMAGE: huanshoupalu/midjourney-api
 
