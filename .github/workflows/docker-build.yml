@@ -8,7 +8,11 @@ on:
       - 'releases/**'
     tags:
       - 'v*'
-  pull_request:
+  # pull_request:
+  #   branches:
+  #     - 'master'
+  #     - 'releases/**'
+  pull_request_target:
     branches:
       - 'master'
       - 'releases/**'
