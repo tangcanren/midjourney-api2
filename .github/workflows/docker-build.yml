@@ -11,7 +11,7 @@ on:
     pull_request:
       branches:
         - 'master'
-        - 'releases/**'
+
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/midjourney-api
 
