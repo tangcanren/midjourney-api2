@@ -23,7 +23,6 @@ env:
 
 jobs:
   build:
-    environment: test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
