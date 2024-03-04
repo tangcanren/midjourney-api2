@@ -15,7 +15,7 @@ on:
 
 
 env:
-  REGISTRY_IMAGE: huanshoupalu/midjourney-api
+  REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/midjourney-api
 
 jobs:
   build:
