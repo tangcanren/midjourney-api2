@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "midjourney-api"
+version = "0.1.0"
+description = "api to interactive with midjourney discord messages"
+authors = ["Deo <liangzhanzhao@metrodata.cn>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+discord-py = "2.2.3"
+fastapi = "^0.109.0"
+python-dotenv = "1.0.0"
+uvicorn = "0.22.0"
+pydantic = "^2.5.3"
+aiohttp = ">=3.8.4,<3.9.0"
+loguru = "0.7.0"
+python-multipart = "0.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.yapf]
+based_on_style = "pep8"
+column_limit = 80
+indent_width = 2
+split_before_first_argument = false
+split_before_dot = true
