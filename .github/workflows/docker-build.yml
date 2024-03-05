@@ -12,17 +12,20 @@ on:
   #   branches:
   #     - 'master'
   #     - 'releases/**'
-  pull_request_target:
-    branches:
-      - 'master'
-      - 'releases/**'
-
+  
+  # pull_request_target:
+  #   branches:
+  #     - 'master'
+  #     - 'releases/**'
+  pull_request_review:
+    types: [submitted]
 
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/midjourney-api
 
 jobs:
   build:
+    if: github.event.review.state == 'APPROVED'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
