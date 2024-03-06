@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 import lib.routers as routers
 from lib.exceptions import APPBaseException, ErrorCode, MissRequiredVariableError
 from task.bot.listener import bot
-
+#release/v1.2.1
 BOT_TOKEN = getenv("BOT_TOKEN")
 if not BOT_TOKEN:
   raise MissRequiredVariableError(
