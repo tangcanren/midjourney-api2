@@ -8,18 +8,6 @@ on:
       - 'releases/**'
     tags:
       - 'v*'
-  # pull_request:
-  #   branches:
-  #     - 'master'
-  #     - 'releases/**'
-
-
-  # pull_request_target:
-  #   branches:
-  #     - 'master'
-  #     - 'releases/**'
-#  pull_request_review:
-#    types: [submitted]
 
 env:
   REGISTRY_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/midjourney-api
@@ -88,94 +76,40 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-#  merge:
-#    runs-on: ubuntu-latest
-#    needs:
-#      - build
-#    steps:
-#      -
-#        name: Download digests
-#        uses: actions/download-artifact@v4
-#        with:
-#          path: /tmp/digests
-#          pattern: digests-*
-#          merge-multiple: true
-#      -
-#        name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#      -
-#        name: Docker meta
-#        id: meta
-#        uses: docker/metadata-action@v5
-#        with:
-#          images: ${{ env.REGISTRY_IMAGE }}
-#      -
-#        name: Login to Docker Hub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#      -
-#        name: Create manifest list and push
-#        working-directory: /tmp/digests
-#        run: |
-#          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-#            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
-#      -
-#        name: Inspect image
-#        run: |
-#          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
-##env:
-
-#  IMAGE_NAME: ${{ github.repository }}
-#  IMAGE_TAG: ${{ github.sha }}
-#
-#
-
-
-#jobs:
-#
-#  build:
-#    runs-on: ubuntu-latest
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        platform: [ linux/amd64, linux/arm64 ]
-#    steps:
-#    -
-#        name: Check out the repo
-#        uses: actions/checkout@v3
-#    -
-#        name: Set up QEMU
-#        uses: docker/setup-qemu-action@v2
-#    -
-#      name: Set up Docker Buildx
-#      uses: docker/setup-buildx-action@v2
-#    -
-#      name: Login to Docker Hub
-#      uses: docker/login-action@v2
-#      with:
-#        username: ${{ secrets.DOCKERHUB_USERNAME }}
-#        password: ${{ secrets.DOCKERHUB_TOKEN }}
-#    -
-#      name: Build and push
-#      uses: docker/build-push-action@v4
-#      with:
-#        push: true
-#        platforms: linux/amd64,linux/arm64
-#        tags: qiyuanqwe/midjourney-api:${{env.IMAGE_TAG}},qiyuanqwe/midjourney-api:latest
-#        #tags: qiyuanqwe/midjourney-api:1.0-${{ matrix.platform == 'linux/amd64' && 'amd64' || 'arm64v8' }}
-#
-##  manifest:
-##    needs: build
-##    runs-on: ubuntu-latest
-##    steps:
-##    -
-##      name: Create and push manifest
-##      run: |
-##        docker manifest create qiyuanqwe/midjourney-api:1.0 \
-##          --amend qiyuanqwe/midjourney-api:1.0-amd64 \
-##          --amend qiyuanqwe/midjourney-api:1.0-arm64v8
-##        docker manifest push qiyuanqwe/midjourney-api:1.0
-##      env:
-##        DOCKER_CLI_EXPERIMENTAL: enabled
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      -
+        name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/digests
+          pattern: digests-*
+          merge-multiple: true
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+      -
+        name: Inspect image
+        run: |
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
